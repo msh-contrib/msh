@@ -8,10 +8,10 @@ type Node struct {
   edges []*Node
 }
 
-func NewNode(params Any, id string) *Node {
+func NewNode(id string, params Any) *Node {
   return &Node{
-    params: params,
     id: id,
+    params: params,
   }
 }
 

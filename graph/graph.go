@@ -18,7 +18,7 @@ func (g *Graph) AddNode(nodeKey string, nodeParams interface{}) {
     }
   }
 
-  g.nodes[nodeKey] = NewNode(nodeParams, nodeKey)
+  g.nodes[nodeKey] = NewNode(nodeKey, nodeParams)
 }
 
 // Add existed node with it dependencies to graph
