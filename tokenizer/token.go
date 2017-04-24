@@ -1,9 +1,9 @@
 package tokenizer
 
-type Token interface {
-  Type TokenType
-  Literal string
+type Token struct {
+	Type    int
+	Literal string
 
-  line int
-  column int
+	line   int
+	column int
 }
