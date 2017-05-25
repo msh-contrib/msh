@@ -1,13 +1,15 @@
 package graph
 
+import "github.com/hzlmn/msh/node"
+
 type Graph struct {
-	nodes map[string]*Node
+	nodes map[string]*node.Node
 }
 
 // New create new instance of graph structure
 func New() *Graph {
 	return &Graph{
-		nodes: make(map[string]*Node),
+		nodes: make(map[string]*node.Node),
 	}
 }
 
@@ -19,7 +21,7 @@ func (g *Graph) AddNode(nodeKey string, nodeParams interface{}) {
 		}
 	}
 
-	g.nodes[nodeKey] = NewNode(nodeKey, nodeParams)
+	g.nodes[nodeKey] = node.NewNode(nodeKey, nodeParams)
 }
 
 // AttachNode add existed node with it dependencies to graph

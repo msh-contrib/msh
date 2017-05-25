@@ -1,36 +1,32 @@
 package scope
 
-import (
-	"github.com/mvdan/sh/syntax"
-)
+type any interface{}
 
-type Scope interface {
-	Get(decl string) *syntax.Node
-	Set(decl string, node *syntax.Node) bool
+type Scope struct {
+	parent *Scope
+	store  map[string]any
 }
 
-type GlobaScope struct {
-	parent     Scope
-	references map[string]*syntax.Node
-}
-
-func NewModuleScope(node *syntax.Node, parent Scope) *ModuleScope {
-	return &ModuleScope{
-		parent:     parent,
-		references: make(map[string]*syntax.Node),
+func New(parent *Scope) *Scope {
+	return &Scope{
+		parent: parent,
+		store:  make(map[string]any),
 	}
 }
 
-func (s *ModuleScope) Get(decl string) *syntax.Node {
-	if s.references[decl] != nil {
-		return s.references[decl]
+func (s *Scope) Get(name string) interface{} {
+	if _, ok := s.store[name]; ok {
+		return s.store[name]
 	}
 
 	if s.parent != nil {
-		return s.parent.Get(decl)
+		return s.parent.Get(name)
 	}
 
 	return nil
 }
 
-func (s *ModuleScope) Set() {}
+func (s *Scope) Set(name string, value any) any {
+	s.store[name] = value
+	return value
+}

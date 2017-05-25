@@ -55,14 +55,14 @@ func main() {
 
 	syntax.Walk(parsedFile, func(node syntax.Node) bool {
 		switch x := node.(type) {
+		case *syntax.CallExpr:
+			fmt.Println("call expr", x.Args[1].Parts[0])
+			break
 		case *syntax.ParamExp:
 			fmt.Println("parsed param expression", x.Exp.Word)
 			break
 		case *syntax.FuncDecl:
-			fmt.Println("found func declaration", x.Name.)
-			break
-		default:
-			fmt.Println("statement")
+			fmt.Println("found func declaration", x.Name)
 			break
 		}
 

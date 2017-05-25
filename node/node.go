@@ -1,4 +1,4 @@
-package graph
+package node
 
 type Any interface{}
 
@@ -8,7 +8,7 @@ type Node struct {
 	edges  []*Node
 }
 
-func NewNode(id string, params Any) *Node {
+func New(id string, params Any) *Node {
 	return &Node{
 		id:     id,
 		params: params,
