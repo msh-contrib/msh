@@ -1,26 +1,31 @@
 package main
 
 import (
+	//"bytes"
 	"flag"
 	"fmt"
 	"github.com/hzlmn/msh/graph"
+	//"github.com/mvdan/sh/interp"
 	"github.com/mvdan/sh/syntax"
 	//"bufio"
-	//"bufio"
-	"bytes"
-	"io/ioutil"
+	"github.com/davecgh/go-spew/spew"
+	//"github.com/hzlmn/msh/utils"
 	"log"
+	//"os"
 )
 
 var source = flag.String("i", "", "define entry point file")
 
-func readFile(file string) (data []byte) {
-	data, readError := ioutil.ReadFile(file)
-	if readError != nil {
-		log.Fatal(readError)
+func composeFiles(list ...*syntax.File) *syntax.File {
+	newFile := &syntax.File{}
+
+	for _, f := range list {
+		for _, stmt := range f.Stmts {
+			newFile.Stmts = append(newFile.Stmts, stmt)
+		}
 	}
 
-	return
+	return newFile
 }
 
 func main() {
@@ -30,53 +35,86 @@ func main() {
 		log.Fatal("-i input flag should be defined")
 	}
 
-	fmt.Println("works", *source)
+	depsGraph := graph.CollectNodes(*source)
+	fmt.Println("graph", spew.Sdump(depsGraph))
 
-	fileData := readFile(*source)
+	// fmt.Println("works", *source)
 
-	//output := flag.String("o", "out.sh", "output file")
-	//fileData, parseError := syntax.Parse()
-	params := map[string]interface{}{
-		"param": "test",
-	}
+	// fileData := utils.ReadFile(*source)
+	// sourceReader := bytes.NewReader(fileData)
 
-	fileReader := bytes.NewReader(fileData)
-	parsedFile, parseError := syntax.Parse(fileReader, "shell", syntax.PosixConformant)
-	if parseError != nil {
-		log.Fatal(parseError)
-	}
+	// mainFile := utils.ReadFile("./test2.sh")
+	// mainReader := bytes.NewReader(mainFile)
 
-	fmt.Println(parsedFile.Stmts[0])
+	// file, fileError := syntax.Parse(sourceReader, "shell", syntax.PosixConformant)
+	// mainParsed, mainFileError := syntax.Parse(mainReader, "shell", syntax.PosixConformant)
 
+	// // fmt.Println("mainFile", string(mainFile))
+	// // fmt.Println("module", string(fileData))
+
+	// if mainFileError != nil {
+	// 	log.Fatal("Main read error")
+	// }
+
+	// if fileError != nil {
+	// 	log.Fatal("Error while parsing source file")
+	// }
+
+	// syntax.Walk(mainParsed, func(node syntax.Node) bool {
+	// 	switch x := node.(type) {
+	// 	case *syntax.CallExpr:
+	// 		fmt.Println("call exp", spew.Sdump(x))
+	// 		for _, value := range x.Args {
+	// 			fmt.Println("arg", spew.Sdump(value))
+	// 		}
+	// 		break
+	// 	}
+
+	// 	return true
+	// })
+
+	// newFile := composeFiles(mainParsed, file)
+
+	// syntax.Fprint(os.Stdout, newFile)
+
+	// scriptRunner := &interp.Runner{
+	// 	File:   file,
+	// 	Stdout: os.Stdout,
+	// 	Stderr: os.Stderr,
+	// }
+
+	// runnerError := scriptRunner.Run()
+
+	// if runnerError != nil {
+	// 	fmt.Println("Script running error", runnerError)
+	// }
 	//syntax.Fprint(os.Stdout, parsedFile)
 
-	childNode := graph.NewNode("child", params)
-	node := graph.NewNode("key", params)
+	//graph.CollectNodes(*source)
+	// syntax.Walk(parsedFile, func(node syntax.Node) bool {
+	// 	switch x := node.(type) {
+	// 	case *syntax.CallExpr:
+	// 		fmt.Println("call expr", x.Args[1].Parts[0])
+	// 		break
+	// 	case *syntax.ParamExp:
+	// 		fmt.Println("parsed param expression", x.Exp.Word)
+	// 		break
+	// 	case *syntax.FuncDecl:
+	// 		fmt.Println("found func declaration", spew.Sdump(x))
+	// 		break
+	// 	}
 
-	syntax.Walk(parsedFile, func(node syntax.Node) bool {
-		switch x := node.(type) {
-		case *syntax.CallExpr:
-			fmt.Println("call expr", x.Args[1].Parts[0])
-			break
-		case *syntax.ParamExp:
-			fmt.Println("parsed param expression", x.Exp.Word)
-			break
-		case *syntax.FuncDecl:
-			fmt.Println("found func declaration", x.Name)
-			break
-		}
-
-		return true
-	})
+	// 	return true
+	// })
 
 	// for _, val := range parsedFile.Stmts {
 	// 	fmt.Println("statemtnt", val.Cmd)
 	// }
 
-	node.AddEdge(childNode)
+	// node.AddEdge(childNode)
 
-	graph := graph.New()
-	graph.AttachNode(node)
+	// graph := graph.New()
+	// graph.AttachNode(node)
 
-	fmt.Println(graph.GetNodes())
+	// fmt.Println(graph.GetNodes())
 }
