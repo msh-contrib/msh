@@ -34,8 +34,3 @@ func TestAttachingNode(t *testing.T) {
 		t.Fatal()
 	}
 }
-
-//func TestGetNodes(t *testing.T) {
-//graph := New()
-//graph.AddNode("testNode", make)
-//}

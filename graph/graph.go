@@ -105,7 +105,7 @@ func walk(ctx *Ctx) {
 	fdata := string(utils.ReadFile(normPath))
 
 	ctx.Graph.AddNode(normPath, map[string]interface{}{
-		"data": fdata,
+		"data": ctx.Reg.ReplaceAllString(fdata, "# replaced import statement for $1"),
 	})
 
 	if ctx.ParentID != "" {

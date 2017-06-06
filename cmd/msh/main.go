@@ -8,7 +8,7 @@ import (
 	//"github.com/mvdan/sh/interp"
 	"github.com/mvdan/sh/syntax"
 	//"bufio"
-	"github.com/davecgh/go-spew/spew"
+	//"github.com/davecgh/go-spew/spew"
 	"github.com/hzlmn/msh/resolver"
 	"log"
 	//"os"
@@ -38,7 +38,7 @@ func main() {
 	depsGraph := graph.MakeGraph(*source)
 
 	resolvedGraph := resolver.Resolve(depsGraph.GetNode(graph.NormalizePath(*source)))
-	fmt.Println("resolved", spew.Sdump(resolvedGraph))
+	//fmt.Println("resolved", spew.Sdump(resolvedGraph))
 
 	for _, node := range resolvedGraph {
 		fmt.Println(node.GetParams()["data"])
