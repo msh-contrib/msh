@@ -1,18 +1,20 @@
 package node
 
-type Any interface{}
-
 type Node struct {
-	params Any
+	params map[string]interface{}
 	id     string
 	edges  []*Node
 }
 
-func New(id string, params Any) *Node {
+func New(id string, params map[string]interface{}) *Node {
 	return &Node{
 		id:     id,
 		params: params,
 	}
+}
+
+func (n *Node) GetParams() map[string]interface{} {
+	return n.params
 }
 
 func (n *Node) AddEdge(node *Node) {

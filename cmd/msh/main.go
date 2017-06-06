@@ -9,7 +9,7 @@ import (
 	"github.com/mvdan/sh/syntax"
 	//"bufio"
 	"github.com/davecgh/go-spew/spew"
-	//"github.com/hzlmn/msh/utils"
+	"github.com/hzlmn/msh/resolver"
 	"log"
 	//"os"
 )
@@ -35,8 +35,14 @@ func main() {
 		log.Fatal("-i input flag should be defined")
 	}
 
-	depsGraph := graph.CollectNodes(*source)
-	fmt.Println("graph", spew.Sdump(depsGraph))
+	depsGraph := graph.MakeGraph(*source)
+
+	resolvedGraph := resolver.Resolve(depsGraph.GetNode(graph.NormalizePath(*source)))
+	fmt.Println("resolved", spew.Sdump(resolvedGraph))
+
+	for _, node := range resolvedGraph {
+		fmt.Println(node.GetParams()["data"])
+	}
 
 	// fmt.Println("works", *source)
 
