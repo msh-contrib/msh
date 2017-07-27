@@ -1,8 +1,9 @@
 package resolver
 
-import "github.com/hzlmn/msh/node"
+import "github.com/hzlmn/graph"
 
-func getIndex(node *node.Node, list []*node.Node) int {
+// getIndex helper for getting index of node in the list
+func getIndex(node *graph.Node, list []*graph.Node) int {
 	for pos, elem := range list {
 		if node == elem {
 			return pos
@@ -13,7 +14,7 @@ func getIndex(node *node.Node, list []*node.Node) int {
 }
 
 // InArray checks if certain value is in list of items
-func inArray(value *node.Node, list []*node.Node) bool {
+func inArray(value *graph.Node, list []*graph.Node) bool {
 	for _, item := range list {
 		if item == value {
 			return true
@@ -23,7 +24,9 @@ func inArray(value *node.Node, list []*node.Node) bool {
 	return false
 }
 
-func walk(node *node.Node, resolved *[]*node.Node, unresolved *[]*node.Node) {
+// walk through node connections and populate resolved list
+// TODO: This code is very hacky should be replaced later
+func walk(node *graph.Node, resolved *[]*graph.Node, unresolved *[]*graph.Node) {
 	*unresolved = append(*unresolved, node)
 
 	for _, edge := range node.GetConnections() {
@@ -41,9 +44,9 @@ func walk(node *node.Node, resolved *[]*node.Node, unresolved *[]*node.Node) {
 }
 
 // Resolve run resoluting process starting from entry node
-func Resolve(startNode *node.Node) []*node.Node {
-	var resolved []*node.Node
-	var unresolved []*node.Node
+func Resolve(startNode *graph.Node) []*graph.Node {
+	var resolved []*graph.Node
+	var unresolved []*graph.Node
 
 	walk(startNode, &resolved, &unresolved)
 
