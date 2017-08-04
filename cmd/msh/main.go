@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/hzlmn/msh/bundle"
 	"github.com/urfave/cli"
 	"os"
@@ -11,7 +10,7 @@ func main() {
 	app := cli.NewApp()
 
 	app.Name = "msh"
-	app.Version = "1.0.0"
+	app.Version = "1.0.0.beta"
 	app.Usage = "Tool for writing modular shell scripts"
 
 	app.EnableBashCompletion = true
@@ -34,9 +33,8 @@ func main() {
 				entryFile := c.String("entry")
 
 				b := bundle.New(entryFile)
-				fmt.Println(b.Graph)
+				b.Build()
 
-				fmt.Println(c.Bool("chunks"))
 				return nil
 			},
 		},
