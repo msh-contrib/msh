@@ -3,7 +3,7 @@ package bundle
 import (
 	//"encoding/json"
 	"fmt"
-	"github.com/davecgh/go-spew/spew"
+	//"github.com/davecgh/go-spew/spew"
 	"github.com/hzlmn/graph"
 	"github.com/hzlmn/msh/module"
 	"github.com/hzlmn/msh/utils"
@@ -23,11 +23,11 @@ func New(entryFile string) *Bundle {
 	bundle.EntryFile = entryFile
 	bundle.EntryModule = module.New(nil, entryFile, utils.ReadFile(entryFile))
 
-	bundle.EntryModule.Parse()
+	bundle.EntryModule.ScanModule()
 
-	bundle.EntryModule.Lookup()
+	//bundle.EntryModule.Lookup()
 
-	spew.Dump(bundle.EntryModule.GetScope())
+	//spew.Dump(bundle.EntryModule.GetScope())
 
 	//fmt.Print(res)
 
